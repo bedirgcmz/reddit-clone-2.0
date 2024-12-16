@@ -41,6 +41,8 @@ export const postPageSchema = z.object({
     username: z.string(),
     id: z.string(),
   }),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 })
 
 export type PostPageData = z.infer<typeof postPageSchema>

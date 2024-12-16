@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { type HomepagePostsData } from '@/lib/schemas'
 import { getPosts } from '@/lib/queries'
 import formatDate from '@/utils/set-date'
+import { FaCircle } from 'react-icons/fa'
 
 export const HomePosts = ({
   initialData,
@@ -42,12 +43,15 @@ export const HomePosts = ({
             href={`/post/${id}`}
             className='flex w-full flex-col rounded-3xl bg-white p-4'
           >
-            <span className='text-[14px] text-zinc-600'>
-              @{author.username} / {formatDate(createdAt)}{' '}
-              <span className='text-[12px] text-gray-400'>
+            <span className='flex items-center justify-start text-[14px] text-zinc-600'>
+              r/{author.username}{' '}
+              <FaCircle className='mx-2 text-[6px] text-gray-300' />
+              <span className='text-gray-400'>{formatDate(createdAt)}</span>
+              <span className='ms-2 text-[12px] text-gray-400'>
                 {updatedAt &&
                   updatedAt !== createdAt &&
-                  `(Editid ${formatDate(updatedAt)})`}
+                  `
+              (Edited ${formatDate(updatedAt)})`}
               </span>
             </span>
             <h2 className='text-lg font-bold'>{title}</h2>

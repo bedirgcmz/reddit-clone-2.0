@@ -81,6 +81,8 @@ const getPost = async (req: Request, res: Response) => {
         id: author._id,
         username: author.username,
       },
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
     });
   } catch (error) {
     console.error(error);

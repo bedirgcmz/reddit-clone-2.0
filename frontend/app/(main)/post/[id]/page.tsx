@@ -4,8 +4,10 @@ import Link from 'next/link'
 import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
 import { DeletePostButton } from '@/components/delete-post-button'
+import { FaCircle } from 'react-icons/fa'
+import formatDate from '@/utils/set-date'
 
-export const revalidate = 60 * 15 // 15 min
+export const revalidate = 900 // 15 min
 
 export default async function PostPage({
   params,
@@ -27,7 +29,20 @@ export default async function PostPage({
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>
-            <span className='text-zinc-600'>{post.author.username}</span>
+            <span className='flex items-center justify-start text-[14px] text-zinc-600'>
+              r/{post.author.username}{' '}
+              <FaCircle className='mx-2 text-[6px] text-gray-300' />
+              <span className='text-gray-400'>
+                {formatDate(post.createdAt)}
+              </span>
+              <span className='ms-2 text-[12px] text-gray-400'>
+                {post.updatedAt &&
+                  post.updatedAt !== post.createdAt &&
+                  `
+              (Edited ${formatDate(post.updatedAt)})`}
+              </span>
+            </span>
+            {/* <span className='text-zinc-600'>{post.author.username}</span> */}
             <h1 className='text-2xl font-bold'>{post.title}</h1>
           </div>
           {isAuthor && (
