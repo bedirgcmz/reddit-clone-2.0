@@ -6,6 +6,8 @@ import { auth } from '@/lib/auth'
 import { DeletePostButton } from '@/components/delete-post-button'
 import { FaCircle } from 'react-icons/fa'
 import formatDate from '@/utils/set-date'
+import { AiFillEdit } from 'react-icons/ai'
+import { MdDeleteForever } from 'react-icons/md'
 
 export const revalidate = 900 // 15 min
 
@@ -48,7 +50,7 @@ export default async function PostPage({
           {isAuthor && (
             <div className='flex gap-3'>
               <Link href={`/post/${post.id}/edit`} className='button-secondary'>
-                edit
+                <AiFillEdit className='me-1' /> edit
               </Link>
               <DeletePostButton postId={post.id} />
             </div>
