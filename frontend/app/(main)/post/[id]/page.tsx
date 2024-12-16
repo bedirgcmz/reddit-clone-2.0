@@ -7,7 +7,6 @@ import { DeletePostButton } from '@/components/delete-post-button'
 import { FaCircle } from 'react-icons/fa'
 import formatDate from '@/utils/set-date'
 import { AiFillEdit } from 'react-icons/ai'
-import { MdDeleteForever } from 'react-icons/md'
 
 export const revalidate = 900 // 15 min
 
@@ -44,7 +43,6 @@ export default async function PostPage({
               (Edited ${formatDate(post.updatedAt)})`}
               </span>
             </span>
-            {/* <span className='text-zinc-600'>{post.author.username}</span> */}
             <h1 className='text-2xl font-bold'>{post.title}</h1>
           </div>
           {isAuthor && (
