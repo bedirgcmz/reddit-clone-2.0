@@ -1,11 +1,11 @@
-import { type Document, model, Schema, type Types } from 'mongoose'
+import mongoose, { type Document, model, Schema, type Types } from "mongoose";
 
 type TComment = Document & {
-  content: string
-  author: Types.ObjectId
-  createdAt: Date
-  updatedAt: Date
-}
+  content: string;
+  author: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 const commentSchema = new Schema(
   {
@@ -15,26 +15,26 @@ const commentSchema = new Schema(
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
   },
   {
     timestamps: true,
   }
-)
+);
 
 type TPost = Document & {
-  title: string
-  content?: string
-  author: Types.ObjectId
-  comments: TComment[]
-  upvotes: Types.ObjectId[]
-  downvotes: Types.ObjectId[]
-  score: number
-  createdAt: Date
-  updatedAt: Date
-}
+  title: string;
+  content?: string;
+  author: Types.ObjectId;
+  comments: TComment[];
+  upvotes: Types.ObjectId[];
+  downvotes: Types.ObjectId[];
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 const postSchema = new Schema(
   {
@@ -48,20 +48,22 @@ const postSchema = new Schema(
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
-    comments: [commentSchema],
+    comments: {
+      type: [commentSchema], // Burada array içine commentSchema alt şeması eklenmiş
+    },
     upvotes: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
     downvotes: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
     score: {
@@ -72,6 +74,7 @@ const postSchema = new Schema(
   {
     timestamps: true,
   }
-)
+);
 
-export const Post = model<TPost>('Post', postSchema)
+export const Post = model<TPost>("Post", postSchema);
+export const Comment = model<TComment>("Comment", commentSchema);
