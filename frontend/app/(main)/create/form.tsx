@@ -43,6 +43,13 @@ export const CreatePostForm = () => {
         className='input min-h-96 rounded-3xl'
       />
       <FieldError error={errors.content} />
+      {/* <input
+        type="file"
+        {...register('image')}
+        accept="image/*"
+        className="input"
+      />
+      <FieldError error={errors.image} /> */}
       <button type='submit' className='button-primary'>
         {isPending ? 'uploading post...' : 'post'}
       </button>

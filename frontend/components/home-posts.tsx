@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 import { type HomepagePostsData } from '@/lib/schemas'
 import { getPosts } from '@/lib/queries'
+import formatDate from '@/utils/set-date'
 
 export const HomePosts = ({
   initialData,
@@ -30,19 +31,39 @@ export const HomePosts = ({
     })
 
   const currentPosts = data.pages.map((page) => page?.posts || []).flat()
+  console.log(currentPosts)
 
   return (
     <section className='flex flex-col items-center gap-4'>
-      {currentPosts.map(({ id, title, author }) => (
-        <Link
-          key={id}
-          href={`/post/${id}`}
-          className='flex w-full flex-col rounded-3xl bg-white p-4'
-        >
-          <span className='text-zinc-600'>{author.username}</span>
-          <h2 className='text-lg font-bold'>{title}</h2>
-        </Link>
-      ))}
+      {currentPosts.map(
+        ({ id, title, content, createdAt, updatedAt, author }) => (
+          <Link
+            key={id}
+            href={`/post/${id}`}
+            className='flex w-full flex-col rounded-3xl bg-white p-4'
+          >
+            <span className='text-[14px] text-zinc-600'>
+              @{author.username} / {formatDate(createdAt)}{' '}
+              <span className='text-[12px] text-gray-400'>
+                {updatedAt &&
+                  updatedAt !== createdAt &&
+                  `(Editid ${formatDate(updatedAt)})`}
+              </span>
+            </span>
+            <h2 className='text-lg font-bold'>{title}</h2>
+            <p>
+              {content && content.length > 250
+                ? `${content.slice(0, 250)}...`
+                : content}
+              {content && content.length > 250 && (
+                <Link href={`/post/${id}`} className='text-blue-500 underline'>
+                  Read more
+                </Link>
+              )}
+            </p>
+          </Link>
+        ),
+      )}
       <Loader
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}

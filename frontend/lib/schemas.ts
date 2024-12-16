@@ -19,6 +19,7 @@ export type LogInValues = z.infer<typeof logInSchema>
 export const postActionSchema = z.object({
   title: z.string().min(1, 'title is required'),
   content: z.string().optional(),
+  // image: z.instanceof(File).optional(), // Ben ekledim
 })
 
 export type PostValues = z.infer<typeof postActionSchema>
@@ -49,9 +50,12 @@ export const homepagePostsSchema = z.object({
     z.object({
       id: z.string(),
       title: z.string(),
+      content: z.string().optional(),
       author: z.object({
         username: z.string(),
       }),
+      createdAt: z.string(),
+      updatedAt: z.string(),
     }),
   ),
   nextPage: z.number().nullable(),
