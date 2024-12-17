@@ -39,6 +39,9 @@ const getPosts = async (req: Request, res: Response) => {
         },
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
+        score: post.score,
+        upvotes: post.upvotes,
+        downvotes: post.downvotes,
       };
     });
 
