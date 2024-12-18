@@ -8,13 +8,18 @@ import { type HomepagePostsData } from '@/lib/schemas'
 import { getPosts } from '@/lib/queries'
 import formatDate from '@/utils/set-date'
 import { FaCircle } from 'react-icons/fa'
+import { Votes } from './Votes/votes'
+import { FaRegComment } from 'react-icons/fa'
+import { FaShare } from 'react-icons/fa'
 
 export const HomePosts = ({
   initialData,
   limit,
+  userId,
 }: {
   initialData: HomepagePostsData
   limit: number
+  userId: string | null
 }) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -28,44 +33,73 @@ export const HomePosts = ({
         pageParams: [1],
       },
       initialPageParam: 1,
-      refetchOnMount: false,
+      // refetchOnMount: false, silme isleminden sonra ana menuye donmek icin silindi
     })
 
   const currentPosts = data.pages.map((page) => page?.posts || []).flat()
-  console.log(currentPosts)
 
   return (
     <section className='flex flex-col items-center gap-4'>
       {currentPosts.map(
-        ({ id, title, content, createdAt, updatedAt, author }) => (
-          <Link
-            key={id}
-            href={`/post/${id}`}
-            className='flex w-full flex-col rounded-3xl bg-white p-4'
-          >
-            <span className='flex items-center justify-start text-[14px] text-zinc-600'>
-              r/{author.username}{' '}
-              <FaCircle className='mx-2 text-[6px] text-gray-300' />
-              <span className='text-gray-400'>{formatDate(createdAt)}</span>
-              <span className='ms-2 text-[12px] text-gray-400'>
-                {updatedAt &&
-                  updatedAt !== createdAt &&
-                  `
-              (Edited ${formatDate(updatedAt)})`}
+        ({
+          id,
+          title,
+          content,
+          createdAt,
+          updatedAt,
+          author,
+          score,
+          upvotes,
+          downvotes,
+        }) => (
+          <div className='w-full rounded-lg p-3 shadow-sm' key={id}>
+            <Link
+              key={id}
+              href={`/post/${id}`}
+              className='flex w-full flex-col rounded-3xl bg-white p-4'
+            >
+              <span className='flex items-center justify-start text-[14px] text-zinc-600'>
+                r/{author.username}{' '}
+                <FaCircle className='mx-2 text-[6px] text-gray-300' />
+                <span className='text-gray-400'>{formatDate(createdAt)}</span>
+                <span className='ms-2 text-[12px] text-gray-400'>
+                  {updatedAt &&
+                    updatedAt !== createdAt &&
+                    `
+                (Edited ${formatDate(updatedAt)})`}
+                </span>
               </span>
-            </span>
-            <h2 className='text-lg font-bold'>{title}</h2>
-            <p>
-              {content && content.length > 250
-                ? `${content.slice(0, 250)}...`
-                : content}
-              {content && content.length > 250 && (
-                <Link href={`/post/${id}`} className='text-blue-500 underline'>
-                  Read more
-                </Link>
-              )}
-            </p>
-          </Link>
+              <h2 className='text-lg font-bold'>{title}</h2>
+              <p>
+                {content && content.length > 250
+                  ? `${content.slice(0, 250)}...`
+                  : content}
+                {content && content.length > 250 && (
+                  <Link
+                    href={`/post/${id}`}
+                    className='text-blue-500 underline'
+                  >
+                    Read more
+                  </Link>
+                )}
+              </p>
+            </Link>
+            <div className='mt-3 flex w-full items-center justify-start gap-2'>
+              <Votes
+                postId={id}
+                userId={userId}
+                score={score}
+                upvotes={upvotes}
+                downvotes={downvotes}
+              />
+              <span className='rounded-full bg-gray-100 px-3 py-2'>
+                <FaRegComment />
+              </span>
+              <span className='rounded-full bg-gray-100 px-3 py-2'>
+                <FaShare />
+              </span>
+            </div>
+          </div>
         ),
       )}
       <Loader

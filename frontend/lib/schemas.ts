@@ -43,6 +43,9 @@ export const postPageSchema = z.object({
   }),
   createdAt: z.string(),
   updatedAt: z.string(),
+  score: z.number(),
+  upvotes: z.array(z.string()),
+  downvotes: z.array(z.string()),
 })
 
 export type PostPageData = z.infer<typeof postPageSchema>
@@ -58,6 +61,9 @@ export const homepagePostsSchema = z.object({
       }),
       createdAt: z.string(),
       updatedAt: z.string(),
+      score: z.number(),
+      upvotes: z.array(z.string()),
+      downvotes: z.array(z.string()),
     }),
   ),
   nextPage: z.number().nullable(),

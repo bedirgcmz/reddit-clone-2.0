@@ -7,6 +7,7 @@ import { postRouter } from "./routes/post";
 import { authRouter } from "./routes/auth";
 import { profileRouter } from "./routes/profile";
 import { commentRouter } from "./routes/comment";
+import { voteRouter } from "./routes/vote";
 
 const app = express();
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(postRouter);
 app.use(authRouter);
 app.use(profileRouter);
 app.use(commentRouter);
+app.use(voteRouter);
 
 mongoose.connect(process.env.DB_URL!).then(() => {
   const port = process.env.PORT || "8080";

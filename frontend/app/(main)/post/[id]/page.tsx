@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
 import { DeletePostButton } from '@/components/delete-post-button'
-import { FaCircle } from 'react-icons/fa'
+import { FaCircle, FaRegComment, FaShare } from 'react-icons/fa'
 import formatDate from '@/utils/set-date'
 import { AiFillEdit } from 'react-icons/ai'
+import { Votes } from '@/components/Votes/votes'
 
 export const revalidate = 900 // 15 min
 
@@ -26,7 +27,7 @@ export default async function PostPage({
   const isAuthor = user && user.id === post.author.id
 
   return (
-    <main className='main'>
+    <main className='main w-full rounded-lg p-3 shadow-sm'>
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>
@@ -56,6 +57,21 @@ export default async function PostPage({
         </header>
         <p>{post.content}</p>
       </article>
+      <div className='mt-3 flex w-full items-center justify-start gap-2'>
+        <Votes
+          postId={id}
+          userId={post.author.id}
+          score={post.score}
+          upvotes={post.upvotes}
+          downvotes={post.downvotes}
+        />
+        <span className='rounded-full bg-gray-100 px-3 py-2'>
+          <FaRegComment />
+        </span>
+        <span className='rounded-full bg-gray-100 px-3 py-2'>
+          <FaShare />
+        </span>
+      </div>
     </main>
   )
 }
