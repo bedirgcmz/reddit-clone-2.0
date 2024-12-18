@@ -17,7 +17,7 @@ export const Votes = ({
     <div className='flex items-center gap-1 rounded-full bg-gray-100'>
       <button
         className={cn(
-          'button-tertiary',
+          'button-tertiary text-[22px]',
           userId && upvotes.includes(userId) && 'text-primary',
         )}
       >
@@ -26,7 +26,7 @@ export const Votes = ({
       <span>{score}</span>
       <button
         className={cn(
-          'button-tertiary',
+          'button-tertiary text-[22px]',
           userId && downvotes.includes(userId) && 'text-primary',
         )}
       >

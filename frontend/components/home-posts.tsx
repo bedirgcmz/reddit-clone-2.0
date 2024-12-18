@@ -52,7 +52,7 @@ export const HomePosts = ({
           upvotes,
           downvotes,
         }) => (
-          <div className='w-full rounded-lg p-3 shadow-sm'>
+          <div className='w-full rounded-lg p-3 shadow-sm' key={id}>
             <Link
               key={id}
               href={`/post/${id}`}
