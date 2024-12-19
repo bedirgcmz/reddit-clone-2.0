@@ -70,3 +70,32 @@ export const homepagePostsSchema = z.object({
 })
 
 export type HomepagePostsData = z.infer<typeof homepagePostsSchema>
+
+// export const postCommentSchema = z.object({
+//   id: z.string(),
+//   content: z.string().optional().default(''),
+//   author: z.object({
+//     username: z.string(),
+//     id: z.string(),
+//   }),
+//   createdAt: z.string(),
+//   updatedAt: z.string(),
+// })
+
+// export type PostCommentSchema = z.infer<typeof postCommentSchema>
+
+export const postCommentSchema = z.object({
+  _id: z.string(),
+  content: z.string(),
+  author: z.object({
+    _id: z.string(),
+    username: z.string(),
+  }),
+  post: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  __v: z.number(),
+})
+
+// Birden fazla yorum için dizi şeması
+export const commentsArraySchema = z.array(postCommentSchema)

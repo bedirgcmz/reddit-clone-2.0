@@ -8,6 +8,7 @@ import { FaCircle, FaRegComment, FaShare } from 'react-icons/fa'
 import formatDate from '@/utils/set-date'
 import { AiFillEdit } from 'react-icons/ai'
 import { Votes } from '@/components/Votes/votes'
+import Comments from '@/components/comments'
 
 export const revalidate = 900 // 15 min
 
@@ -71,6 +72,9 @@ export default async function PostPage({
         <span className='rounded-full bg-gray-100 px-3 py-2'>
           <FaShare />
         </span>
+      </div>
+      <div>
+        <Comments postId={id} />
       </div>
     </main>
   )

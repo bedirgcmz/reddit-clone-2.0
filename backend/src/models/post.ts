@@ -1,13 +1,38 @@
 import { type Document, type Model, model, Schema, Types } from "mongoose";
 
+// type TComment = Document & {
+//   content: string;
+//   author: Types.ObjectId;
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
+
+// const commentSchema = new Schema(
+//   {
+//     content: {
+//       type: String,
+//       required: true,
+//     },
+//     author: {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//       required: true,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
 type TComment = Document & {
   content: string;
-  author: Types.ObjectId;
+  author: Types.ObjectId; // User'a referans
+  post: Types.ObjectId; // Gönderiye referans
   createdAt: Date;
   updatedAt: Date;
 };
 
-const commentSchema = new Schema(
+const commentSchema = new Schema<TComment>(
   {
     content: {
       type: String,
@@ -15,7 +40,12 @@ const commentSchema = new Schema(
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // User modeline referans
+      required: true,
+    },
+    post: {
+      type: Schema.Types.ObjectId,
+      ref: "Post", // Post modeline referans
       required: true,
     },
   },
@@ -28,7 +58,7 @@ type TPost = Document & {
   title: string;
   content?: string;
   author: Types.ObjectId;
-  comments: TComment[];
+  comments: Types.Array<Types.ObjectId>;
   upvotes: Types.Array<Types.ObjectId>;
   downvotes: Types.Array<Types.ObjectId>;
   score: number;
@@ -51,9 +81,12 @@ const postSchema = new Schema(
       ref: "User",
       required: true,
     },
-    comments: {
-      type: [commentSchema], // Burada array içine commentSchema alt şeması eklenmiş
-    },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment", // Comment modeline referans
+      },
+    ],
     upvotes: [
       {
         type: Schema.Types.ObjectId,

@@ -1,5 +1,10 @@
+import { z } from 'zod'
 import { client } from './client'
-import { homepagePostsSchema, postPageSchema } from './schemas'
+import {
+  homepagePostsSchema,
+  postCommentSchema,
+  postPageSchema,
+} from './schemas'
 
 export const getPost = async (id: string) => {
   try {
@@ -29,6 +34,46 @@ export const getPosts = async (limit: number, page: number) => {
 
     return data
   } catch {
+    return null
+  }
+}
+
+// export const getComments = async (postId: string) => {
+//   try {
+//     const response = await client.get(`/comments/${postId}`)
+
+//     const { data, error } = postCommentSchema.safeParse(response.data)
+//     if (error) {
+//       console.error('Validation error:', error)
+//       return null
+//     }
+
+//     return data
+//   } catch (err) {
+//     console.error('Error fetching comments:', err)
+//     return null
+//   }
+// }
+
+export const getComments = async (postId: string) => {
+  try {
+    const response = await client.get(`/comments/${postId}`)
+    console.log('API Response:', response.data)
+    // Dizi doğrulama
+    const commentsArraySchema = z.array(postCommentSchema)
+    const { data, error } = commentsArraySchema.safeParse(response.data)
+
+    console.log(data) // undifind olarak geliyor
+
+    if (error) {
+      console.error('Validation error:', error)
+      return null
+    }
+    console.log(data)
+
+    return data
+  } catch (err) {
+    console.error('Error fetching comments:', err)
     return null
   }
 }
