@@ -38,23 +38,6 @@ export const getPosts = async (limit: number, page: number) => {
   }
 }
 
-// export const getComments = async (postId: string) => {
-//   try {
-//     const response = await client.get(`/comments/${postId}`)
-
-//     const { data, error } = postCommentSchema.safeParse(response.data)
-//     if (error) {
-//       console.error('Validation error:', error)
-//       return null
-//     }
-
-//     return data
-//   } catch (err) {
-//     console.error('Error fetching comments:', err)
-//     return null
-//   }
-// }
-
 export const getComments = async (postId: string) => {
   try {
     const response = await client.get(`/comments/${postId}`)
