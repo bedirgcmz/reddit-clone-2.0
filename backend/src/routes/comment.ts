@@ -137,7 +137,6 @@ const editComment = async (req: Request, res: Response) => {
     res.status(500).send();
   }
 };
-console.log(Types.ObjectId.isValid("67598092e977701a6ee56531")); // true veya false dönecektir
 
 export const commentRouter = Router();
 

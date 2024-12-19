@@ -10,11 +10,13 @@ import Comments from '@/components/Comments/comments'
 import CommentModal from '@/components/Comments/comment-modal'
 import { PostPageData } from '@/lib/schemas'
 import { CommentValues } from '@/lib/schemas'
+import { auth } from '@/lib/auth'
 
 interface Comment {
   _id: string
   content: string
   author: {
+    _id: string
     username: string
   }
   createdAt: string
@@ -24,9 +26,14 @@ interface Comment {
 type PostContentProps = {
   post: PostPageData
   isAuthor: boolean
+  userId?: string
 }
 
-const PostContent: React.FC<PostContentProps> = ({ post, isAuthor }) => {
+const PostContent: React.FC<PostContentProps> = ({
+  post,
+  isAuthor,
+  userId,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [allComments, setAllComments] = useState<Comment[]>([])
 
@@ -63,7 +70,7 @@ const PostContent: React.FC<PostContentProps> = ({ post, isAuthor }) => {
         </header>
         <p>{post.content}</p>
       </article>
-      <div className='mt-3 flex w-full items-center justify-start gap-2'>
+      <div className='mt-3 flex w-full items-center justify-start gap-4'>
         <Votes
           postId={post.id}
           userId={post.author.id}
@@ -91,6 +98,7 @@ const PostContent: React.FC<PostContentProps> = ({ post, isAuthor }) => {
         postId={post.id}
         setAllComments={setAllComments}
         allComments={allComments}
+        userId={userId}
       />
     </div>
   )

@@ -12,6 +12,7 @@ interface Comment {
   _id: string
   content: string
   author: {
+    _id: string
     username: string
   }
   createdAt: string
@@ -73,7 +74,7 @@ const CommentModal: React.FC<CommentModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className='w-full max-w-lg rounded-lg bg-white p-6'>
+    <div className='w-full rounded-lg bg-white p-6'>
       <textarea
         className='mb-1 h-full min-h-[100px] w-full rounded-lg border p-2 pb-6'
         value={comment}
