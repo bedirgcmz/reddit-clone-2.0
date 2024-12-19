@@ -1,9 +1,7 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Swal from 'sweetalert2'
-import { useRouter } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
 import { createComment } from '@/actions/comments/create-comment'
 import { getComments } from '@/lib/queries'
 import { CommentValues } from '@/lib/schemas'

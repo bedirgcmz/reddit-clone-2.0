@@ -92,9 +92,13 @@ export const HomePosts = ({
                 upvotes={upvotes}
                 downvotes={downvotes}
               />
-              <span className='rounded-full bg-gray-100 px-3 py-2'>
+
+              <Link
+                href={`/post/${id}`}
+                className='rounded-full bg-gray-100 px-3 py-2'
+              >
                 <FaRegComment />
-              </span>
+              </Link>
               <span className='rounded-full bg-gray-100 px-3 py-2'>
                 <FaShare />
               </span>

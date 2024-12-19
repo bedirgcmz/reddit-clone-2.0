@@ -7,6 +7,7 @@ import { RiEditFill } from 'react-icons/ri'
 import { MdDeleteForever } from 'react-icons/md'
 import formatDate from '@/utils/set-date'
 import { getComments } from '../../lib/queries'
+import DeleteCommentButton from './delete-comment-button'
 
 interface Comment {
   _id: string
@@ -100,9 +101,11 @@ const Comments: React.FC<CommentsProps> = ({
                   >
                     <RiEditFill className='me-1' /> Edit
                   </button>
-                  <button className='flex items-center rounded-lg px-2 py-1 text-sm hover:text-red-500 hover:underline'>
-                    <MdDeleteForever className='me-1' /> Delete
-                  </button>
+                  <DeleteCommentButton
+                    commentId={comment._id}
+                    postId={postId}
+                    setAllComments={setAllComments}
+                  />
                 </span>
               )}
             </div>

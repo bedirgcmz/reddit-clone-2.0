@@ -9,8 +9,7 @@ import { Votes } from '@/components/Votes/votes'
 import Comments from '@/components/Comments/comments'
 import CommentModal from '@/components/Comments/comment-modal'
 import { PostPageData } from '@/lib/schemas'
-import { CommentValues } from '@/lib/schemas'
-import { auth } from '@/lib/auth'
+import Swal from 'sweetalert2'
 
 interface Comment {
   _id: string
@@ -39,6 +38,28 @@ const PostContent: React.FC<PostContentProps> = ({
 
   // ACIKLAMA: Bu kod, bir postun yorumlarını alır ve allComments state'ini günceller. Bu, yorumlar sayfası açıldığında veya güncellendiğinde yorumlar listesini güncellemek için kullanılır.
   // allCommest state burda tutulur ve set ile hem create comment icinde hem de comment-modal icinde gucellenir. ve son guncel hali comment.tsx icinde render edilir
+
+  const isUserLogin = () => {
+    if (isAuthor) {
+      setIsModalOpen(!isModalOpen)
+    } else {
+      Swal.fire({
+        title: 'You Need to Log In',
+        text: 'You must be logged in to post a comment.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Log In',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to login page
+          window.location.href = '/auth/log-in' // Replace with your login page route
+        }
+      })
+    }
+  }
 
   return (
     <div className='main w-full rounded-lg p-3 shadow-sm'>
@@ -80,7 +101,7 @@ const PostContent: React.FC<PostContentProps> = ({
         />
         <button
           className='rounded-full bg-gray-100 px-3 py-2'
-          onClick={() => setIsModalOpen(!isModalOpen)}
+          onClick={() => isUserLogin()}
         >
           <FaRegComment />
         </button>
