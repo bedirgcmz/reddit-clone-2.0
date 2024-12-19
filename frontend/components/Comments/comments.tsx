@@ -1,6 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { getComments } from '../lib/queries'
+import { getComments } from '../../lib/queries'
+import { FaCircle } from 'react-icons/fa'
+import formatDate from '@/utils/set-date'
 
 interface Comment {
   _id: string
@@ -8,6 +10,8 @@ interface Comment {
   author: {
     username: string
   }
+  createdAt: string
+  updatedAt: string
 }
 
 interface CommentsProps {
@@ -44,11 +48,22 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
   if (error) return <p>{error}</p>
 
   return (
-    <div>
+    <div className='mt-3 p-2 ps-4'>
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div key={comment._id} className='mb-2 border-b pb-2'>
-            <p className='font-bold'>{comment.author.username}</p>
+          <div key={comment._id} className='mb-3'>
+            <p className='flex items-center justify-start'>
+              @{comment.author.username}
+              <FaCircle className='mx-2 text-[6px] text-gray-300' />
+              <span className='text-[12px] text-gray-400'>
+                {formatDate(comment.createdAt)}
+              </span>
+              <span className='ms-2 text-[12px] text-gray-400'>
+                {comment.updatedAt &&
+                  comment.updatedAt !== comment.createdAt &&
+                  `(Edited ${formatDate(comment.updatedAt)})`}
+              </span>
+            </p>
             <p>{comment.content}</p>
           </div>
         ))
