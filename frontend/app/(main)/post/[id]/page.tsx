@@ -111,7 +111,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   const isAuthor = user ? user.id === post.author.id : false
 
   return (
-    <main className='w-full p-3'>
+    <main className='flex w-full justify-center p-3'>
       <PostContent post={post} isAuthor={isAuthor} />
     </main>
   )

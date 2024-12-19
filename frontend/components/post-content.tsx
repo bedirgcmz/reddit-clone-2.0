@@ -9,6 +9,17 @@ import { Votes } from '@/components/Votes/votes'
 import Comments from '@/components/Comments/comments'
 import CommentModal from '@/components/Comments/comment-modal'
 import { PostPageData } from '@/lib/schemas'
+import { CommentValues } from '@/lib/schemas'
+
+interface Comment {
+  _id: string
+  content: string
+  author: {
+    username: string
+  }
+  createdAt: string
+  updatedAt: string
+}
 
 type PostContentProps = {
   post: PostPageData
@@ -17,9 +28,13 @@ type PostContentProps = {
 
 const PostContent: React.FC<PostContentProps> = ({ post, isAuthor }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [allComments, setAllComments] = useState<Comment[]>([])
+
+  // ACIKLAMA: Bu kod, bir postun yorumlarını alır ve allComments state'ini günceller. Bu, yorumlar sayfası açıldığında veya güncellendiğinde yorumlar listesini güncellemek için kullanılır.
+  // allCommest state burda tutulur ve set ile hem create comment icinde hem de comment-modal icinde gucellenir. ve son guncel hali comment.tsx icinde render edilir
 
   return (
-    <main className='main w-full rounded-lg p-3 shadow-sm'>
+    <div className='main w-full rounded-lg p-3 shadow-sm'>
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>
@@ -70,11 +85,14 @@ const PostContent: React.FC<PostContentProps> = ({ post, isAuthor }) => {
         isOpen={isModalOpen}
         postId={post.id}
         onClose={() => setIsModalOpen(false)}
+        setAllComments={setAllComments}
       />
-      <div>
-        <Comments postId={post.id} />
-      </div>
-    </main>
+      <Comments
+        postId={post.id}
+        setAllComments={setAllComments}
+        allComments={allComments}
+      />
+    </div>
   )
 }
 

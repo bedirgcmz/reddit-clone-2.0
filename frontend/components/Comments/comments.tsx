@@ -16,9 +16,15 @@ interface Comment {
 
 interface CommentsProps {
   postId: string
+  setAllComments: React.Dispatch<React.SetStateAction<Comment[]>>
+  allComments: Comment[]
 }
 
-const Comments: React.FC<CommentsProps> = ({ postId }) => {
+const Comments: React.FC<CommentsProps> = ({
+  postId,
+  allComments,
+  setAllComments,
+}) => {
   const [comments, setComments] = useState<Comment[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -28,11 +34,9 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       try {
         setLoading(true)
         const data = await getComments(postId)
-        console.log(data) // null geliyor
 
         if (data) {
-          //   setComments((prev) => [...prev, ...data])
-          setComments(data)
+          setAllComments(data)
         }
       } catch (err) {
         setError('Could not load comments.')
@@ -49,8 +53,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
 
   return (
     <div className='mt-3 p-2 ps-4'>
-      {comments.length > 0 ? (
-        comments.map((comment) => (
+      {allComments.length > 0 ? (
+        allComments.map((comment) => (
           <div key={comment._id} className='mb-3'>
             <p className='flex items-center justify-start'>
               @{comment.author.username}

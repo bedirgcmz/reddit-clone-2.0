@@ -14,6 +14,7 @@ export const getCommentsByPost = async (req: Request, res: Response) => {
     }
 
     const comments = await Comment.find({ post: postId })
+      .sort({ createdAt: -1 })
       .populate({
         path: "author",
         select: "username", // Yalnızca username'i al

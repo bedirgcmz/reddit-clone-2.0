@@ -5,19 +5,31 @@ import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { createComment } from '@/actions/comments/create-comment'
+import { getComments } from '@/lib/queries'
+import { CommentValues } from '@/lib/schemas'
+
+interface Comment {
+  _id: string
+  content: string
+  author: {
+    username: string
+  }
+  createdAt: string
+  updatedAt: string
+}
 
 interface CommentModalProps {
   isOpen: boolean
   onClose: () => void
   postId: string
-  // onSubmit: (content: string) => void
+  setAllComments: React.Dispatch<React.SetStateAction<Comment[]>>
 }
 // Comment Modal Component
 const CommentModal: React.FC<CommentModalProps> = ({
   isOpen,
   onClose,
   postId,
-  // onSubmit,
+  setAllComments,
 }) => {
   const [comment, setComment] = useState('')
 
@@ -39,13 +51,23 @@ const CommentModal: React.FC<CommentModalProps> = ({
     } catch (error) {
       console.error('Error creating comment:', error)
     }
-    // onSubmit(comment)
-    // createComment(postId, comment)
-    console.log(postId)
-    console.log(comment)
 
     setComment('')
     onClose()
+    // Yorumları güncellemek için getComments fonksiyonunu kullan
+    try {
+      const comments = await getComments(postId)
+
+      // Yorumları state'e yüklemek
+      if (comments) {
+        setAllComments(comments)
+      } else {
+        console.error('Comments is undefined')
+        setAllComments([])
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error)
+    }
   }
 
   if (!isOpen) return null
