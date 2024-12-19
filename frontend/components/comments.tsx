@@ -19,26 +19,6 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  //   useEffect(() => {
-  //     const fetchComments = async () => {
-  //       try {
-  //         setLoading(true)
-  //         const data = await getComments(postId)
-  //         console.log(data)
-
-  //         if (data) {
-  //           setComments((prev) => [...prev, data])
-  //         }
-  //       } catch (err) {
-  //         setError('Could not load comments.')
-  //       } finally {
-  //         setLoading(false)
-  //       }
-  //     }
-
-  //     fetchComments()
-  //   }, [postId])
-
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -47,7 +27,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         console.log(data) // null geliyor
 
         if (data) {
-          setComments((prev) => [...prev, ...data])
+          //   setComments((prev) => [...prev, ...data])
+          setComments(data)
         }
       } catch (err) {
         setError('Could not load comments.')
@@ -59,15 +40,11 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
     fetchComments()
   }, [postId])
 
-  console.log(comments) // bos geliyor
-  console.log(postId) // dogru id geliyor
-
   if (loading) return <p>Loading comments...</p>
   if (error) return <p>{error}</p>
 
   return (
     <div>
-      <h3>Comments</h3>
       {comments.length > 0 ? (
         comments.map((comment) => (
           <div key={comment._id} className='mb-2 border-b pb-2'>

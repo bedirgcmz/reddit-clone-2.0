@@ -58,18 +58,14 @@ export const getPosts = async (limit: number, page: number) => {
 export const getComments = async (postId: string) => {
   try {
     const response = await client.get(`/comments/${postId}`)
-    console.log('API Response:', response.data)
     // Dizi doğrulama
     const commentsArraySchema = z.array(postCommentSchema)
     const { data, error } = commentsArraySchema.safeParse(response.data)
-
-    console.log(data) // undifind olarak geliyor
 
     if (error) {
       console.error('Validation error:', error)
       return null
     }
-    console.log(data)
 
     return data
   } catch (err) {
