@@ -1,7 +1,7 @@
 'use client'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 import { type HomepagePostsData } from '@/lib/schemas'
@@ -36,7 +36,20 @@ export const HomePosts = ({
       // refetchOnMount: false, silme isleminden sonra ana menuye donmek icin silindi
     })
 
+  const [isTextLong, setIsTextLong] = useState(false)
+
   const currentPosts = data.pages.map((page) => page?.posts || []).flat()
+  const longTextMakeShort = (pText: string) => {
+    if (isTextLong) {
+      return pText
+    } else {
+      if (pText.length < 250) {
+        return pText
+      } else {
+        return `${pText.slice(0, 250)}...`
+      }
+    }
+  }
 
   return (
     <section className='flex flex-col items-center gap-4'>
@@ -72,15 +85,19 @@ export const HomePosts = ({
               <h2 className='text-lg font-bold'>{title}</h2>
               <p>
                 {content && content.length > 250
-                  ? `${content.slice(0, 250)}...`
+                  ? longTextMakeShort(content)
                   : content}
                 {content && content.length > 250 && (
-                  <Link
-                    href={`/post/${id}`}
-                    className='text-blue-500 underline'
+                  <button
+                    className='z-10 ms-2 text-blue-500 underline'
+                    onClick={(event) => {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      setIsTextLong(!isTextLong)
+                    }}
                   >
-                    Read more
-                  </Link>
+                    {isTextLong ? 'Read Less' : 'Read more'}
+                  </button>
                 )}
               </p>
             </Link>
