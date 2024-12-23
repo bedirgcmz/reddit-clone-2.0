@@ -99,7 +99,8 @@ const Comments: React.FC<CommentsProps> = ({
                       handleEditClick(comment._id, comment.content)
                     }
                   >
-                    <RiEditFill className='me-1' /> Edit
+                    <RiEditFill className='me-1' />{' '}
+                    <span className='hidden sm:flex'>Edit</span>
                   </button>
                   <DeleteCommentButton
                     commentId={comment._id}

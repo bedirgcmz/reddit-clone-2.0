@@ -62,7 +62,7 @@ const PostContent: React.FC<PostContentProps> = ({
   }
 
   return (
-    <div className='main w-full rounded-lg p-3 shadow-sm'>
+    <div className='main w-full rounded-lg bg-[#f6f6f6] p-3 shadow-sm'>
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>
@@ -95,7 +95,7 @@ const PostContent: React.FC<PostContentProps> = ({
         <Votes
           postId={post.id}
           userId={post.author.id}
-          score={post.score}
+          initialScore={post.score}
           upvotes={post.upvotes}
           downvotes={post.downvotes}
         />

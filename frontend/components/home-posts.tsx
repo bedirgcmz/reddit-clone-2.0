@@ -65,7 +65,10 @@ export const HomePosts = ({
           upvotes,
           downvotes,
         }) => (
-          <div className='w-full rounded-lg p-3 shadow-sm' key={id}>
+          <div
+            className='w-full rounded-lg bg-[#f6f6f6] p-3 shadow-sm hover:shadow-md'
+            key={id}
+          >
             <Link
               key={id}
               href={`/post/${id}`}
@@ -105,18 +108,18 @@ export const HomePosts = ({
               <Votes
                 postId={id}
                 userId={userId}
-                score={score}
+                initialScore={score}
                 upvotes={upvotes}
                 downvotes={downvotes}
               />
 
               <Link
                 href={`/post/${id}`}
-                className='rounded-full bg-gray-100 px-3 py-2'
+                className='rounded-full bg-gray-200 px-3 py-2'
               >
                 <FaRegComment />
               </Link>
-              <span className='rounded-full bg-gray-100 px-3 py-2'>
+              <span className='rounded-full bg-gray-200 px-3 py-2'>
                 <FaShare />
               </span>
             </div>

@@ -3,6 +3,7 @@
 import React from 'react'
 import Swal from 'sweetalert2'
 import { deleteComment } from '@/actions/comments/delete-comment'
+import { MdDeleteForever } from 'react-icons/md'
 
 interface Comment {
   _id: string
@@ -66,7 +67,8 @@ const DeleteCommentButton: React.FC<DeleteCommentButtonProps> = ({
       className='flex items-center rounded-lg px-2 py-1 text-sm hover:text-red-500 hover:underline'
       onClick={handleDelete}
     >
-      Delete
+      <MdDeleteForever className='me-1' />
+      <span className='hidden sm:flex'>Delete</span>
     </button>
   )
 }
