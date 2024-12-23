@@ -10,6 +10,7 @@ import Comments from '@/components/Comments/comments'
 import CommentModal from '@/components/Comments/comment-modal'
 import { PostPageData } from '@/lib/schemas'
 import Swal from 'sweetalert2'
+import GoBackButton from './go-back-button'
 
 interface Comment {
   _id: string
@@ -40,7 +41,7 @@ const PostContent: React.FC<PostContentProps> = ({
   // allCommest state burda tutulur ve set ile hem create comment icinde hem de comment-modal icinde gucellenir. ve son guncel hali comment.tsx icinde render edilir
 
   const isUserLogin = () => {
-    if (isAuthor) {
+    if (userId) {
       setIsModalOpen(!isModalOpen)
     } else {
       Swal.fire({
@@ -55,7 +56,7 @@ const PostContent: React.FC<PostContentProps> = ({
       }).then((result) => {
         if (result.isConfirmed) {
           // Redirect to login page
-          window.location.href = '/auth/log-in' // Replace with your login page route
+          window.location.href = '/auth/log-in'
         }
       })
     }
@@ -63,6 +64,7 @@ const PostContent: React.FC<PostContentProps> = ({
 
   return (
     <div className='main w-full rounded-lg bg-[#f6f6f6] p-3 shadow-sm'>
+      <GoBackButton />
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>
@@ -120,6 +122,7 @@ const PostContent: React.FC<PostContentProps> = ({
         setAllComments={setAllComments}
         allComments={allComments}
         userId={userId}
+        isPostOwner={post.author.id}
       />
     </div>
   )

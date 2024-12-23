@@ -138,9 +138,53 @@ const editComment = async (req: Request, res: Response) => {
   }
 };
 
+const deleteCommentByPostOwner = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params; // commentId
+    const userId = req.userId; // Middleware'den gelen userId
+
+    if (!isValidObjectId(id)) {
+      res.status(400).json({ message: "Invalid comment ID" });
+      return;
+    }
+
+    // Yorum ve ilgili post'u populate ile getir
+    const comment = await Comment.findById(id).populate({
+      path: "post",
+      select: "author", // Sadece author alanını getiriyoruz
+    });
+
+    if (!comment) {
+      res.status(404).json({ message: "Comment not found" });
+      return;
+    }
+
+    const post = comment.post as unknown as { author: string };
+
+    if (!post) {
+      res.status(404).json({ message: "Post not found" });
+      return;
+    }
+
+    // Kullanıcının post sahibi olup olmadığını kontrol et
+    if (post.author.toString() !== userId) {
+      res.status(403).json({ message: "You are not allowed to delete this comment" });
+      return;
+    }
+
+    // Yorum silme işlemini gerçekleştir
+    await comment.deleteOne();
+    res.status(200).json({ message: "Comment deleted by post owner" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const commentRouter = Router();
 
 // Attach routes to the router
+commentRouter.delete("/comments/:id/post-owner", authenticate, deleteCommentByPostOwner);
 commentRouter.post("/comments", authenticate, createComment);
 commentRouter.delete("/comments/:id", authenticate, deleteComment);
 commentRouter.get("/comments/:postId", getCommentsByPost);

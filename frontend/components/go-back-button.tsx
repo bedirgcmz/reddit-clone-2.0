@@ -12,7 +12,7 @@ const GoBackButton = () => {
   return (
     <button
       onClick={handleBackClick}
-      className='absolute left-[1rem] top-[5rem] flex items-center rounded-lg bg-gray-800 px-2 py-1 text-sm text-white hover:bg-gray-700 sm:left-[9rem] sm:top-[5rem]'
+      className='mb-3 flex items-center rounded-lg bg-gray-800 px-2 py-1 text-sm text-white hover:bg-gray-700'
     >
       <FaArrowLeft className='mr-2' /> Back
     </button>

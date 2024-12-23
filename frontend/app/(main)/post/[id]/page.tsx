@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
-import PostContent from '@/components/post-content'
-import GoBackButton from '@/components/go-back-button'
+import PostContent from '@/components/post-content-for-single-post-page'
 
 export default async function PostPage({ params }: { params: { id: string } }) {
   const { id } = await params
@@ -16,8 +15,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   const isAuthor = user ? user.id === post.author.id : false
 
   return (
-    <main className='mt-2 flex w-full justify-center p-3'>
-      <GoBackButton />
+    <main className='mb-3 mt-2 flex w-full justify-center p-3'>
       <PostContent post={post} isAuthor={isAuthor} userId={user?.id} />
     </main>
   )

@@ -8,6 +8,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import formatDate from '@/utils/set-date'
 import { getComments } from '../../lib/queries'
 import DeleteCommentButton from './delete-comment-button'
+import DeleteCommentButtonForPostOwner from './delete-comment-button-for-post-owner'
 
 interface Comment {
   _id: string
@@ -25,6 +26,7 @@ interface CommentsProps {
   setAllComments: React.Dispatch<React.SetStateAction<Comment[]>>
   allComments: Comment[]
   userId?: string
+  isPostOwner: string
 }
 
 const Comments: React.FC<CommentsProps> = ({
@@ -32,6 +34,7 @@ const Comments: React.FC<CommentsProps> = ({
   allComments,
   setAllComments,
   userId,
+  isPostOwner,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentCommentId, setCurrentCommentId] = useState<string | null>(null)
@@ -77,7 +80,7 @@ const Comments: React.FC<CommentsProps> = ({
     <div className='mt-3 p-2 ps-4'>
       {allComments.length > 0 ? (
         allComments.map((comment) => (
-          <div key={comment._id} className='mb-3'>
+          <div key={comment._id} className='mb-4'>
             <div className='flex items-center justify-between'>
               <p className='flex items-center justify-start'>
                 @{comment.author.username}
@@ -109,6 +112,14 @@ const Comments: React.FC<CommentsProps> = ({
                   />
                 </span>
               )}
+              {userId &&
+                comment.author._id !== userId &&
+                userId === isPostOwner && (
+                  <DeleteCommentButtonForPostOwner
+                    commentId={comment._id}
+                    setAllComments={setAllComments}
+                  />
+                )}
             </div>
             <p>{comment.content}</p>
           </div>

@@ -1,28 +1,4 @@
-import { type Document, type Model, model, Schema, Types } from "mongoose";
-
-// type TComment = Document & {
-//   content: string;
-//   author: Types.ObjectId;
-//   createdAt: Date;
-//   updatedAt: Date;
-// };
-
-// const commentSchema = new Schema(
-//   {
-//     content: {
-//       type: String,
-//       required: true,
-//     },
-//     author: {
-//       type: Schema.Types.ObjectId,
-//       ref: "User",
-//       required: true,
-//     },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
+import mongoose, { type Document, type Model, model, Schema, Types } from "mongoose";
 
 type TComment = Document & {
   content: string;
