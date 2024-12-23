@@ -24,7 +24,7 @@ export const postActionSchema = z.object({
 
 export type PostValues = z.infer<typeof postActionSchema>
 
-// data
+//data
 
 export const profileSchema = z.object({
   username: z.string(),
@@ -32,6 +32,72 @@ export const profileSchema = z.object({
 })
 
 export type ProfileData = z.infer<typeof profileSchema>
+
+// export const userProfileSchema = z.object({
+//   user: z.object({
+//     id: z.string(),
+//     username: z.string(),
+//     createdAt: z.string(),
+//     updatedAt: z.string(),
+//     posts: z.array(
+//       z.object({
+//         id: z.string(),
+//         title: z.string(),
+//         content: z.string().optional(),
+//         createdAt: z.string(),
+//         updatedAt: z.string(),
+//         score: z.number(),
+//         upvotes: z.array(z.string()),
+//         downvotes: z.array(z.string()),
+//       }),
+//     ),
+//   }),
+// })
+
+// export type UsersProfilePageData = z.infer<typeof userProfileSchema>
+
+// // export const profilePagePostsSchema = z.object({
+// //   posts: z.array(
+// //     z.object({
+// //       id: z.string(),
+// //       title: z.string(),
+// //       content: z.string().optional(),
+// //       author: z.object({
+// //         id: z.string(),
+// //         username: z.string(),
+// //       }),
+// //       createdAt: z.string(),
+// //       updatedAt: z.string(),
+// //       score: z.number(),
+// //       upvotes: z.array(z.string()), // upvotes için string dizisi
+// //       downvotes: z.array(z.string()), // downvotes için string dizisi
+// //     }),
+// //   ),
+// //   nextPage: z.number().nullable(),
+// // })
+
+// // export type ProfilePagePostsData = z.infer<typeof profilePagePostsSchema>
+
+export const profilePagePostsSchema = z.object({
+  posts: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      content: z.string().optional(),
+      author: z.object({
+        id: z.string(),
+        username: z.string(),
+      }),
+      createdAt: z.string(),
+      updatedAt: z.string(),
+      score: z.number(),
+      upvotes: z.number(),
+      downvotes: z.number(),
+    }),
+  ),
+})
+
+export type ProfilePagePostsData = z.infer<typeof profilePagePostsSchema>
 
 export const postPageSchema = z.object({
   id: z.string(),

@@ -45,9 +45,12 @@ export const HeaderClient = ({ user }: HeaderClientProps) => {
           <FaUser className='cursor-pointer text-2xl' onClick={toggleModal} />
           {isModalOpen && (
             <div className='absolute right-4 top-16 w-48 rounded-md bg-white p-4 shadow-md'>
+              <p className='mb-2 text-center text-sm text-gray-700'>
+                Hello, {user.username}
+              </p>
               <Link
                 href='/profile'
-                className='text-md block py-2 ps-4 text-gray-700 hover:underline'
+                className='text-md block py-2 ps-2 text-gray-700 hover:underline'
               >
                 Profile
               </Link>
