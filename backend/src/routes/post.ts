@@ -3,6 +3,7 @@ import { isValidObjectId, ObjectId } from "mongoose";
 
 import { Post } from "../models/post";
 import { authenticate } from "../middlewares/authenticate";
+import { User } from "../models/user";
 
 type AuthorWithUsername = {
   _id: ObjectId;
@@ -196,10 +197,49 @@ const editPost = async (req: Request, res: Response) => {
   }
 };
 
+const getPostByUserId = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      res.status(400).json({ message: "User ID is missing" });
+      return;
+    }
+
+    const posts = await Post.find({ author: userId }).populate("author", "username").exec();
+
+    if (!posts || posts.length === 0) {
+      res.status(404).json({ message: "No posts found for this user" });
+      return;
+    }
+
+    const responsePosts = posts.map((post) => ({
+      id: post._id,
+      title: post.title,
+      content: post.content,
+      author: {
+        id: post.author._id,
+        username: post.author.username,
+      },
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      score: post.score,
+      upvotes: post.upvotes.length,
+      downvotes: post.downvotes.length,
+    }));
+
+    res.status(200).json({ posts: responsePosts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+};
+
 export const postRouter = Router();
 
 postRouter.get("/posts", getPosts);
 postRouter.get("/posts/:id", getPost);
+postRouter.get("/posts/user/:userId", authenticate, getPostByUserId);
 postRouter.post("/posts", authenticate, createPost);
 postRouter.delete("/posts/:id", authenticate, deletePost);
 postRouter.put("/posts/:id", authenticate, editPost);

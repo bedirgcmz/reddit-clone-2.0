@@ -30,10 +30,27 @@ const commentSchema = new Schema<TComment>(
   }
 );
 
+// type TPost = Document & {
+//   title: string;
+//   content?: string;
+//   author: Types.ObjectId;
+//   comments: Types.Array<Types.ObjectId>;
+//   upvotes: Types.Array<Types.ObjectId>;
+//   downvotes: Types.Array<Types.ObjectId>;
+//   score: number;
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
+
+type AuthorWithUsername = {
+  _id: Types.ObjectId;
+  username: string;
+};
+
 type TPost = Document & {
   title: string;
   content?: string;
-  author: Types.ObjectId;
+  author: AuthorWithUsername;
   comments: Types.Array<Types.ObjectId>;
   upvotes: Types.Array<Types.ObjectId>;
   downvotes: Types.Array<Types.ObjectId>;
