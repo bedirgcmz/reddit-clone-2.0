@@ -33,6 +33,12 @@ export const profileSchema = z.object({
 
 export type ProfileData = z.infer<typeof profileSchema>
 
+export const userActionSchema = z.object({
+  username: z.string().min(2, 'Username must be at least 2 characters'),
+})
+
+export type UserValues = z.infer<typeof userActionSchema>
+
 // export const userProfileSchema = z.object({
 //   user: z.object({
 //     id: z.string(),
@@ -91,8 +97,8 @@ export const profilePagePostsSchema = z.object({
       createdAt: z.string(),
       updatedAt: z.string(),
       score: z.number(),
-      upvotes: z.number(),
-      downvotes: z.number(),
+      upvotes: z.array(z.string()),
+      downvotes: z.array(z.string()),
     }),
   ),
 })

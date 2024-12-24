@@ -6,6 +6,7 @@ import Link from 'next/link'
 import formatDate from '@/utils/set-date'
 import { Votes } from '@/components/Votes/votes'
 import { getPostsByUserId } from '@/actions/get-users-posts'
+import { DeletePostButton } from '@/components/delete-post-button'
 
 interface Post {
   id: string
@@ -18,8 +19,8 @@ interface Post {
   createdAt: string
   updatedAt: string
   score: number
-  upvotes: number // Sayı olarak tanımlandı
-  downvotes: number // Sayı olarak tanımlandı
+  upvotes: string[] // Sayı olarak tanımlandı
+  downvotes: string[] // Sayı olarak tanımlandı
 }
 
 interface UserPostProps {
@@ -34,7 +35,6 @@ const UserPost = ({ userId }: UserPostProps) => {
     const fetchPosts = async () => {
       try {
         const postData = await getPostsByUserId(userId)
-        console.log(postData)
 
         if (postData?.posts) {
           setUsersPosts(postData.posts)
@@ -57,7 +57,8 @@ const UserPost = ({ userId }: UserPostProps) => {
   }
 
   return (
-    <section className='flex flex-col items-center gap-4'>
+    <section className='flex w-[95%] max-w-[700px] flex-col items-center gap-4 sm:w-[90%]'>
+      <h1 className='my-3 font-bold'>My Posts ({usersPosts.length})</h1>
       {usersPosts.length > 0 ? (
         usersPosts.map(
           ({
@@ -106,24 +107,27 @@ const UserPost = ({ userId }: UserPostProps) => {
                   )}
                 </p>
               </Link>
-              {/* <div className='mt-3 flex w-full items-center justify-start gap-2'>
-                <Votes
-                  postId={id}
-                  userId={userId}
-                  initialScore={score}
-                  upvotes={upvotes}
-                  downvotes={downvotes}
-                />
-                <Link
-                  href={`/post/${id}`}
-                  className='rounded-full bg-gray-200 px-3 py-2'
-                >
-                  <FaRegComment />
-                </Link>
-                <span className='rounded-full bg-gray-200 px-3 py-2'>
-                  <FaShare />
-                </span>
-              </div> */}
+              <div className='mt-3 flex w-full items-center justify-between'>
+                <div className='flex w-full items-center justify-start gap-2'>
+                  <Votes
+                    postId={id}
+                    userId={userId}
+                    initialScore={score}
+                    upvotes={upvotes}
+                    downvotes={downvotes}
+                  />
+                  <Link
+                    href={`/post/${id}`}
+                    className='rounded-full bg-gray-200 px-3 py-2'
+                  >
+                    <FaRegComment />
+                  </Link>
+                  <span className='rounded-full bg-gray-200 px-3 py-2'>
+                    <FaShare />
+                  </span>
+                </div>
+                <DeletePostButton postId={id} />
+              </div>
             </div>
           ),
         )

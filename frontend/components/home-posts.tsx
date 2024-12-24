@@ -72,7 +72,7 @@ export const HomePosts = ({
             <Link
               key={id}
               href={`/post/${id}`}
-              className='flex w-full flex-col rounded-3xl bg-white p-4'
+              className='flex w-full flex-col rounded-xl bg-white p-4'
             >
               <span className='flex items-center justify-start text-[14px] text-zinc-600'>
                 r/{author.username}{' '}

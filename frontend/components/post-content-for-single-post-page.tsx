@@ -11,6 +11,7 @@ import CommentModal from '@/components/Comments/comment-modal'
 import { PostPageData } from '@/lib/schemas'
 import Swal from 'sweetalert2'
 import GoBackButton from './go-back-button'
+import { TiHome } from 'react-icons/ti'
 
 interface Comment {
   _id: string
@@ -64,7 +65,15 @@ const PostContent: React.FC<PostContentProps> = ({
 
   return (
     <div className='main w-full rounded-lg bg-[#f6f6f6] p-3 shadow-sm'>
-      <GoBackButton />
+      <span className='mb-3 flex items-center gap-2'>
+        <GoBackButton />{' '}
+        <Link
+          href={'/'}
+          className='flex items-center gap-2 rounded-lg bg-gray-800 px-2 py-1 text-sm text-white hover:bg-gray-700'
+        >
+          Home <TiHome />
+        </Link>
+      </span>
       <article className='space-y-4'>
         <header className='flex items-start justify-between'>
           <div className='space-y-1'>

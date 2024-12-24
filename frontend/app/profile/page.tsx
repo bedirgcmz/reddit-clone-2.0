@@ -1,6 +1,7 @@
 // ProfilePage.tsx
 import { auth } from '@/lib/auth' // auth.ts modülünü server-side'dan import edin
 import UserPost from './UserPosts'
+import { ProfileBanner } from './profileBanner'
 
 const ProfilePage = async () => {
   // Kullanıcıyı auth'tan alıyoruz
@@ -12,8 +13,9 @@ const ProfilePage = async () => {
 
   // Kullanıcıyı başarıyla aldıysak, userId'yi props olarak geçiyoruz
   return (
-    <div>
-      <h1>Profile Page</h1>
+    <div className='flex flex-col items-center pb-4'>
+      <ProfileBanner username={user.username} userId={user.id} />
+      <hr className='mt-3 h-2 w-screen' />
       <UserPost userId={user.id} />
     </div>
   )

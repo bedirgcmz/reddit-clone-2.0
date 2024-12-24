@@ -24,6 +24,7 @@ const getPosts = async (req: Request, res: Response) => {
     }
 
     const posts = await Post.find()
+      .sort({ createdAt: -1 })
       .populate("author", "username")
       .skip(limit * (page - 1))
       .limit(limit);
@@ -206,7 +207,10 @@ const getPostByUserId = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const posts = await Post.find({ author: userId }).populate("author", "username").exec();
+    const posts = await Post.find({ author: userId })
+      .sort({ createdAt: -1 })
+      .populate("author", "username")
+      .exec();
 
     if (!posts || posts.length === 0) {
       res.status(404).json({ message: "No posts found for this user" });
@@ -224,8 +228,8 @@ const getPostByUserId = async (req: Request, res: Response): Promise<void> => {
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
       score: post.score,
-      upvotes: post.upvotes.length,
-      downvotes: post.downvotes.length,
+      upvotes: post.upvotes,
+      downvotes: post.downvotes,
     }));
 
     res.status(200).json({ posts: responsePosts });
