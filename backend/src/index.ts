@@ -11,7 +11,7 @@ import { voteRouter } from "./routes/vote";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors()); //added cors
 
 app.use(postRouter);
 app.use(authRouter);

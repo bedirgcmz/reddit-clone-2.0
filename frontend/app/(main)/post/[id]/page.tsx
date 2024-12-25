@@ -3,8 +3,12 @@ import { getPost } from '@/lib/queries'
 import { auth } from '@/lib/auth'
 import PostContent from '@/components/post-content-for-single-post-page'
 
-export default async function PostPage({ params }: { params: { id: string } }) {
-  const { id } = await params
+type PageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function PostPage({ params }: PageProps) {
+  const { id } = await params // `await` burada gereklidir çünkü `params` artık bir Promise.
   const post = await getPost(id)
 
   if (!post) {

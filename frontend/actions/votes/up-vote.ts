@@ -1,5 +1,6 @@
 'use server'
 
+import { client } from '@/lib/client'
 import { auth } from '@/lib/auth'
 
 export const upVote = async (
@@ -12,17 +13,17 @@ export const upVote = async (
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:8080/votes/${postId}/upvote`,
+    const response = await client.put(
+      `/votes/${postId}/upvote`,
+      {},
       {
-        method: 'PUT',
         headers: {
           Authorization: `Bearer ${accessToken.value}`,
         },
       },
     )
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('Failed to upvote the post.')
     }
 
